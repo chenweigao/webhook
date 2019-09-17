@@ -2,7 +2,7 @@ import os
 import html
 import urllib.parse
 from wsgiref.simple_server import make_server
-
+import sys, getopt
 
 def app(env, resp):
     try:
@@ -21,8 +21,8 @@ def app(env, resp):
     resp('200 OK', [('Content-Type', 'text/html'), ('Content-Length',
                                                     str(len(request_body))), ('name', name), ('pusher', pusher)])
     PATH_OF_BLOG = '/root/test_vueblog/vueblog'
-    # os.chdir(PATH_OF_BLOG)
-    os.chdir("C:\\Users\\nerche\Documents\\_code\\vueblog")
+    os.chdir(PATH_OF_BLOG)
+    # os.chdir("C:\\Users\\nerche\Documents\\_code\\vueblog")
     res = str(os.listdir(os.getcwd()))
     os.system('git status')
     os.system('git pull')
@@ -30,6 +30,10 @@ def app(env, resp):
     return [request_body]
 
 
-httpd = make_server('', 8899, app)
-print('Serving on port 8899...')
-httpd.serve_forever()
+def main(argv):
+    httpd = make_server('', 8899, app)
+    print('Serving on port 8899...')
+    httpd.serve_forever()
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
